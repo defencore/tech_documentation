@@ -15,7 +15,7 @@ RNDIS_MAC: E6:B2:5D:XX:XX:XX
 └─$ sudo apt-get update
 └─$ sudo apt-get upgrade
 ```
-### Docker
+### Docker Installation
 ```
 └─$ sudo apt-get install docker.io
 └─$ sudo usermod -aG docker ${USER}
@@ -23,26 +23,33 @@ RNDIS_MAC: E6:B2:5D:XX:XX:XX
 └─$ id -nG
 └─$ docker pull ubuntu
 └─$ docker images
- ```
- ```
- └─$ docker run -it ubuntu
- docker run -v /path/to/teltonika/sdk/:/home/user -it ubuntu:bionic /bin/bash
-root@eafcde41015e:/# cd /home/user/RUT240
-root@eafcde41015e:/# apt-get update
-root@eafcde41015e:/# apt-get -y install bc libncurses-dev wget rsync nodejs npm
-root@eafcde41015e:/# apt install -y binutils binutils-gold build-essential bzip2 curl device-tree-compiler devscripts file flex fuse g++ gawk gcc gcc-multilib gengetopt gettext git groff libc6-dev libncurses5-dev libpcre3-dev libssl-dev libxml-parser-perl make ocaml ocaml-findlib ocaml-nox patch pkg-config python2.7 python-dev python-yaml sharutils subversion u-boot-tools unzip vim-common wget zlib1g-dev dialog
-root@eafcde41015e:/# ./scripts/feeds update -a
-root@eafcde41015e:/# make menuconfig
+```
+
+### Prepare Teltonika SDK
+```
+└─$ mkdir ~/teltonika
+└─$ cd ~/teltonika
+└─$ wget https://wiki.teltonika-networks.com/gpl/TRB1_R_GPL_00.07.01.2.tar.gz
+└─$ tar -xvf TRB1_R_GPL_00.07.01.2.tar.gz
+└─$ docker run -v ~/teltonika/:/home/teltonika -it ubuntu:bionic /bin/bash
+```
+```
+root@cc52108af770:/# apt-get update
+root@cc52108af770:/# apt-get upgrade
+
+root@cc52108af770:/# useradd teltonika -b /home -d /home/teltonika -s /bin/bash
+
+root@cc52108af770:/# apt-get -y install bc libncurses-dev wget rsync nodejs npm jq
+root@cc52108af770:/# apt install -y binutils binutils-gold build-essential bzip2 curl device-tree-compiler devscripts file flex fuse g++ gawk gcc gcc-multilib gengetopt gettext git groff libc6-dev libncurses5-dev libpcre3-dev libssl-dev libxml-parser-perl make ocaml ocaml-findlib ocaml-nox patch pkg-config python2.7 python-dev python-yaml sharutils subversion u-boot-tools unzip vim-common wget zlib1g-dev dialog
+root@cc52108af770:/# su teltonika
+teltonika@cc52108af770:~$ cd ~/rutos-mdm9x07-trb1-gpl
+teltonika@cc52108af770:~$ ./scripts/feeds update -a
+teltonika@cc52108af770:~$ make menuconfig
 	Target System (Atheros AR7xxx/AR9xxx)  --->
-	Target Profile (Teltonika RUT200)  --->
-	Network  --->
-		Web Servers/Proxies  --->
-			< > privoxy
-		VPN  --->
-			<*> tlt_custom_pkg_wireguard
-root@eafcde41015e:/# export FORCE_UNSAFE_CONFIGURE=1
-root@eafcde41015e:/# make V=s -j$(nproc)
-root@eafcde41015e:/# file bin/ar71xx/openwrt-ar71xx-generic-tlt-rut200-squashfs-sysupgrade.bin
+	Target Profile (Teltonika TRB140 EC25-EU (Region 0))  --->
+	        (X) Teltonika TRB140 EC25-EU (Region 0)
+teltonika@cc52108af770:~$ make V=s -j$(nproc)
+teltonika@cc52108af770:~$ file bin/ar71xx/openwrt-ar71xx-generic-tlt-rut200-squashfs-sysupgrade.bin
  ```
  
  
