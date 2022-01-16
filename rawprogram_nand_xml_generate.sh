@@ -14,8 +14,8 @@ physical_partition_number="0"
 function xml_nand_str(){
   local start_sector=$1 num_partition_sectors=$2 filename=$3
   echo "     <!-- ${filename} -->"
-  echo "     <erase PAGES_PER_BLOCK=${PAGES_PER_BLOCK} SECTOR_SIZE_IN_BYTES=${SECTOR_SIZE_IN_BYTES} num_partition_sectors=${num_partition_sectors} physical_partition_number=${physical_partition_number} start_sector=${start_sector}/>"
-  echo "     <program PAGES_PER_BLOCK=${PAGES_PER_BLOCK} SECTOR_SIZE_IN_BYTES=${SECTOR_SIZE_IN_BYTES} filename=${filename} num_partition_sectors=${num_partition_sectors} physical_partition_number=${physical_partition_number} start_sector=${start_sector}/>"
+  echo "     <erase PAGES_PER_BLOCK=\"${PAGES_PER_BLOCK}\" SECTOR_SIZE_IN_BYTES=\"${SECTOR_SIZE_IN_BYTES}\" num_partition_sectors=\"${num_partition_sectors}\" physical_partition_number=\"${physical_partition_number}\" start_sector=\"${start_sector}\"/>"
+  echo "     <program PAGES_PER_BLOCK=\"${PAGES_PER_BLOCK}\" SECTOR_SIZE_IN_BYTES=\"${SECTOR_SIZE_IN_BYTES}\" filename=\"${filename}.bin\" num_partition_sectors=\"${num_partition_sectors}\" physical_partition_number=\"${physical_partition_number}\" start_sector=\"${start_sector}\"/>"
 }
 
 echo '<?xml version="1.0" ?>'
