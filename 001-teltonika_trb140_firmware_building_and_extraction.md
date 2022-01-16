@@ -243,7 +243,28 @@ src/gz openwrt_vuci http://downloads.openwrt.org/releases/19.07.7/packages/arm_c
     97c 0:rootfs_b
     998 0:storage
   e0024 W!.=|,%
-
+```
+```
+└─$ edl printgpt | awk '/sbl/,0'               
+sbl                     00000000        00280000        0xff/0x1/0x0    0
+mibib                   00280000        00280000        0xff/0x1/0xff   0
+efs2                    00500000        01600000        0xff/0x1/0xff   0
+sys_rev                 01B00000        00500000        0xff/0x1/0x0    0
+rawdata                 02000000        00300000        0xff/0x1/0x0    0
+tz                      02300000        00140000        0xff/0x1/0x0    0
+rpm                     02440000        00180000        0xff/0x1/0x0    0
+aboot                   025C0000        00140000        0xff/0x1/0x0    0
+boot                    02700000        00900000        0xff/0x1/0x0    0
+recovery                03000000        00900000        0xff/0x1/0x0    0
+image_back              03900000        00640000        0xff/0x1/0x0    0
+recoveryfs_b            03F40000        00E00000        0xff/0x1/0x0    0
+scrub                   04D40000        01080000        0xff/0x1/0x0    0
+modem                   05DC0000        03E00000        0xff/0x1/0x0    0
+misc                    09BC0000        00140000        0xff/0x1/0x0    0
+recoveryfs              09D00000        01E00000        0xff/0x1/0x0    0
+qdsp6sw_b               0BB00000        03800000        0xff/0x1/0x0    0
+sys_back                0F300000        03A00000        0xff/0x1/0x0    0
+system                  12D00000        0D300000        0xff/0x1/0x0    0
 ```
 #### EFS2
 ```
