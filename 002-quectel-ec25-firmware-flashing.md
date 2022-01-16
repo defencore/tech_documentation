@@ -80,3 +80,24 @@ recovery
 ```
 └─$ ./QFirehose -n -f ./firmware/
 ```
+
+### List of abbreviations
+```
+    PBL   = Primary Boot Loader
+    SBL   = Secondary Boot Loader
+    RPM   = Resource and Power Management
+    TZ    = Trust Zone
+    HDLC  = High level Data Link Control
+    MSM   = Mobile Station Modem
+    DMSS  = Dual Mode Subscriber Station
+    QDL   = Qualcomm Download
+    QHSUSB_DLOAD = Qualcomm High Speed USB Download
+    EhostDL = Emergency Host Download
+    DCN   = Document Control Number, used by Qualcomm to track their thousands of documents
+    QFIL  = Qualcomm Flash Image Loader
+    QPST  = Qualcomm
+    EDL   = Emergency Download mode
+    HLOS  = High Level OS (Normal boot up mode)
+    QFIT  = Qualcomm Factory Image Tools
+    ABOOT = Application Bootloader
+```
