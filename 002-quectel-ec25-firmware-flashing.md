@@ -55,30 +55,35 @@ system                  12D00000        0D300000        0xff/0x1/0x0    0
 ```
 ## Flashing with QFirehose
 
+### Native Firmware Structure
 ```
-recovery
-└── update
-    ├── appsboot.mbn
-    ├── ENPRG9x07.mbn
-    ├── firehose
-    │   ├── partition_complete_p4K_b256K.mbn
-    │   ├── patch_p4K_b256K.xml
-    │   ├── prog_nand_firehose_9x07.mbn
-    │   └── rawprogram_nand_p4K_b256K_update.xml
-    ├── mdm9607-perf-boot.img
-    ├── mdm9607-perf-sysfs.ubi
-    ├── mdm-perf-recovery-image-mdm9607-perf.ubi
-    ├── NON-HLOS.ubi
-    ├── NPRG9x07.mbn
-    ├── partition.mbn
-    ├── partition_nand.xml
-    ├── rpm.mbn
-    ├── sbl1.mbn
-    └── tz.mbn
+└─$ tree EC25EFAR06A01M4G
+EC25EFAR06A01M4G                                              | Firmware 
+├── contents.xml                                              | 
+├── md5.txt                                                   | MD5 Hashes
+├── Quectel_EC25-E-FA_Firmware_Release_Notes_V0601.pdf        | Release Notes
+└── update                                                    |
+    ├── appsboot.mbn                                          | Application Bootloader
+    ├── ENPRG9x07.mbn                                         |
+    ├── firehose                                              |
+    │   ├── partition_complete_p4K_b256K.mbn                  |
+    │   ├── patch_p4K_b256K.xml                               |
+    │   ├── prog_nand_firehose_9x07.mbn                       | Firehose programmer
+    │   └── rawprogram_nand_p4K_b256K_update.xml              | 
+    ├── mdm9607-perf-boot.img                                 |
+    ├── mdm9607-perf-sysfs.ubi                                |
+    ├── mdm-perf-recovery-image-mdm9607-perf.ubi              |
+    ├── NON-HLOS.ubi                                          |
+    ├── NPRG9x07.mbn                                          |
+    ├── partition.mbn                                         |
+    ├── partition_nand.xml                                    |
+    ├── rpm.mbn                                               | Resource and Power Management
+    ├── sbl1.mbn                                              | Secondary Boot Loader
+    └── tz.mbn                                                | TrustZone
 ```
 
 ```
-└─$ ./QFirehose -n -f ./firmware/
+└─$ ./QFirehose -n -f ./EC25EFAR06A01M4G/
 ```
 
 ### List of abbreviations
@@ -101,3 +106,6 @@ recovery
     QFIT  = Qualcomm Factory Image Tools
     ABOOT = Application Bootloader
 ```
+
+## Links:
+- https://forum.openwrt.org/t/help-required-adding-support-for-mdm9607/114244/2
