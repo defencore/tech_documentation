@@ -155,21 +155,21 @@ EC25EFAR06A01M4G
 # You need to remap the memory using mimib.mbn
 Name            Offset          Length          Attr                    Flash
 -------------------------------------------------------------
-sbl                     00000000        00280000        0xff/0x1/0x0    0
-mibib                   00280000        00280000        0xff/0x1/0xff   0
-efs2                    00500000        02C00000        0xff/0x1/0xff   0
-rawdata                 03100000        00600000        0xff/0x1/0x0    0
-tz                      03700000        00280000        0xff/0x1/0x0    0
-rpm                     03980000        00280000        0xff/0x1/0x0    0
-aboot                   03C00000        00280000        0xff/0x1/0x0    0
-mnf_info                03E80000        00280000        0xff/0x1/0x0    0
-boot_config             04100000        00280000        0xff/0x1/0x0    0
-boot_a                  04380000        01200000        0xff/0x1/0x0    0
-boot_b                  05580000        01200000        0xff/0x1/0x0    0
-modem                   06780000        07800000        0xff/0x1/0x0    0
-rootfs_a                0DF80000        0EE80000        0xff/0x1/0x0    0
-rootfs_b                1CE00000        0EE80000        0xff/0x1/0x0    0
-storage                 2BC80000        14380000        0xff/0x1/0x0    0
+sbl                     00000000        00140000        0xff/0x1/0x0    0
+mibib                   00140000        00140000        0xff/0x1/0xff   0
+efs2                    00280000        01600000        0xff/0x1/0xff   0
+rawdata                 01880000        00300000        0xff/0x1/0x0    0
+tz                      01B80000        00140000        0xff/0x1/0x0    0
+rpm                     01CC0000        00140000        0xff/0x1/0x0    0
+aboot                   01E00000        00140000        0xff/0x1/0x0    0
+mnf_info                01F40000        00140000        0xff/0x1/0x0    0
+boot_config             02080000        00140000        0xff/0x1/0x0    0
+boot_a                  021C0000        00900000        0xff/0x1/0x0    0
+boot_b                  02AC0000        00900000        0xff/0x1/0x0    0
+modem                   033C0000        03C00000        0xff/0x1/0x0    0
+rootfs_a                06FC0000        07740000        0xff/0x1/0x0    0
+rootfs_b                0E700000        07740000        0xff/0x1/0x0    0
+storage                 15E40000        0A1C0000        0xff/0x1/0x0    0
 ```
 ```
 # We need 2 MIBIB files: from Teltonika TRB140 (trb140_mibib.mbn) and from EC25-E (ec25-e_mibib.mbn)
@@ -214,3 +214,5 @@ storage                 2BC80000        14380000        0xff/0x1/0x0    0
 └─$ dd if=/dev/zero bs=1 count=$((0x300)) |tr "\000" "\377" | dd of=ec25-e_mibib.mbn bs=1 seek=$((0x1000)) conv=notrunc
 └─$ dd if=trb140_mibib.mbn bs=1 skip=$((0x800)) count=$((0x300)) | dd of=ec25-e_mibib.mbn bs=1 seek=$((0x1000)) conv=notrunc
 ```
+[ec25-e_to_trb140_memory_remap.zip](https://github.com/defencore/tech_documentation/files/7878154/ec25-e_to_trb140_memory_remap.zip)
+
