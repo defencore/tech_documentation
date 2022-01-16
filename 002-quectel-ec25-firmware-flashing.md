@@ -144,10 +144,73 @@ EC25EFAR06A01M4G
 └─$ cat EC25EFAR06A01M4G/update/firehose/rawprogram_nand_p4K_b256K_update.xml
 <?xml version="1.0" ?>
 <data>
-  <erase PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" num_partition_sectors="640" physical_partition_number="0" start_sector="0"/>
   <erase PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" num_partition_sectors="640" physical_partition_number="0" start_sector="640"/>
   <program PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" filename="partition_complete_p4K_b256K.mbn" num_partition_sectors="640" physical_partition_number="0" start_sector="640"/>
-  <program PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" filename="sbl1.mbn" num_partition_sectors="640" physical_partition_number="0" start_sector="0"/>
 </data>
 └─$ ~/development/quectel_ec25eu/QFirehose_Linux_Android_V1.4.8/QFirehose -n -f EC25EFAR06A01M4G
+```
+
+## Trying to run OpenWrt
+```
+# You need to remap the memory using mimib.mbn
+Name            Offset          Length          Attr                    Flash
+-------------------------------------------------------------
+sbl                     00000000        00280000        0xff/0x1/0x0    0
+mibib                   00280000        00280000        0xff/0x1/0xff   0
+efs2                    00500000        02C00000        0xff/0x1/0xff   0
+rawdata                 03100000        00600000        0xff/0x1/0x0    0
+tz                      03700000        00280000        0xff/0x1/0x0    0
+rpm                     03980000        00280000        0xff/0x1/0x0    0
+aboot                   03C00000        00280000        0xff/0x1/0x0    0
+mnf_info                03E80000        00280000        0xff/0x1/0x0    0
+boot_config             04100000        00280000        0xff/0x1/0x0    0
+boot_a                  04380000        01200000        0xff/0x1/0x0    0
+boot_b                  05580000        01200000        0xff/0x1/0x0    0
+modem                   06780000        07800000        0xff/0x1/0x0    0
+rootfs_a                0DF80000        0EE80000        0xff/0x1/0x0    0
+rootfs_b                1CE00000        0EE80000        0xff/0x1/0x0    0
+storage                 2BC80000        14380000        0xff/0x1/0x0    0
+```
+```
+# We need 2 MIBIB files: from Teltonika TRB140 (trb140_mibib.mbn) and from EC25-E (ec25-e_mibib.mbn)
+└─$ strings -a -t x  ec25-e_mibib.mbn
+   1010 0:SBL
+   102c 0:MIBIB
+   1048 0:EFS2
+   1064 0:sys_rev
+   1080 0:RAWDATA
+   109c 0:TZ
+   10b8 0:RPM
+   10d4 0:aboot
+   10f0 0:boot
+   110c 0:recovery
+   1128 0:image_back
+   1144 0:recoveryfs_B
+   1160 0:scrub
+   117c 0:modem
+   1198 0:misc
+   11b4 0:recoveryfs
+   11d0 0:qdsp6sw_B
+   11ec 0:sys_back
+   1208 0:rootfs_a
+└─$ strings -a -t x trb140_mibib.mbn
+    810 0:SBL
+    82c 0:MIBIB
+    848 0:EFS2
+    864 0:RAWDATA
+    880 0:TZ
+    89c 0:RPM
+    8b8 0:aboot
+    8d4 0:mnf_info
+    8f0 0:boot_config
+    90c 0:boot_a
+    928 0:boot_b
+    944 0:modem
+    960 0:rootfs_a
+    97c 0:rootfs_b
+    998 0:storage
+  e0024 W!.=|,%
+# We need to patch MIBIB
+└─$ dd if=/dev/zero bs=1 count=$((0x300)) |tr "\000" "\377" | dd of=ec25-e_mibib.mbn bs=1 seek=$((0x1000)) conv=notrunc
+└─$ dd if=trb140_mibib.mbn bs=1 skip=$((0x800)) count=$((0x300)) | dd of=ec25-e_mibib.mbn bs=1 seek=$((0x1000)) conv=notrunc
 ```
