@@ -1,5 +1,5 @@
 # Quectel EC25 Firmware Flashing
-## EC25-E EC25EFA-512-STD
+### EC25-E EC25EFA-512-STD
 ```
 MODEM:             EC25-E EC25EFA-512-STD
 FIRMWARE:          EC25EFAR06A01M4G
@@ -52,4 +52,31 @@ recoveryfs              09D00000        01E00000        0xff/0x1/0x0    0
 qdsp6sw_b               0BB00000        03800000        0xff/0x1/0x0    0
 sys_back                0F300000        03A00000        0xff/0x1/0x0    0
 system                  12D00000        0D300000        0xff/0x1/0x0    0
+```
+## Flashing with QFirehose
+
+```
+recovery
+└── update
+    ├── appsboot.mbn
+    ├── ENPRG9x07.mbn
+    ├── firehose
+    │   ├── partition_complete_p4K_b256K.mbn
+    │   ├── patch_p4K_b256K.xml
+    │   ├── prog_nand_firehose_9x07.mbn
+    │   └── rawprogram_nand_p4K_b256K_update.xml
+    ├── mdm9607-perf-boot.img
+    ├── mdm9607-perf-sysfs.ubi
+    ├── mdm-perf-recovery-image-mdm9607-perf.ubi
+    ├── NON-HLOS.ubi
+    ├── NPRG9x07.mbn
+    ├── partition.mbn
+    ├── partition_nand.xml
+    ├── rpm.mbn
+    ├── sbl1.mbn
+    └── tz.mbn
+```
+
+```
+└─$ ./QFirehose -n -f ./firmware/
 ```
