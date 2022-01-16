@@ -216,3 +216,7 @@ storage                 15E40000        0A1C0000        0xff/0x1/0x0    0
 ```
 [ec25-e_to_trb140_memory_remap.zip](https://github.com/defencore/tech_documentation/files/7878154/ec25-e_to_trb140_memory_remap.zip)
 
+```
+└─$ edl printgpt | awk '/sbl/,0' > partition.save
+└─$ ./rawprogram_nand_xml_generate.sh > firehose/rawprogram_nand_p4K_b256K_update.xml
+```
