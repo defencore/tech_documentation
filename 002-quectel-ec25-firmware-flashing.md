@@ -126,3 +126,28 @@ Offset          Length          Image
 
 ## Links:
 - https://forum.openwrt.org/t/help-required-adding-support-for-mdm9607/114244/2
+
+
+
+## PARTITION
+
+```
+# Only these files are needed to remap the partitions
+└─$ tree EC25EFAR06A01M4G
+EC25EFAR06A01M4G
+└── update
+    └── firehose
+        ├── partition_complete_p4K_b256K.mbn
+        ├── prog_nand_firehose_9x07.mbn
+        ├── rawprogram_nand_p4K_b256K_update.xml
+        └── sbl1.mbn
+└─$ cat EC25EFAR06A01M4G/update/firehose/rawprogram_nand_p4K_b256K_update.xml
+<?xml version="1.0" ?>
+<data>
+  <erase PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" num_partition_sectors="640" physical_partition_number="0" start_sector="0"/>
+  <erase PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" num_partition_sectors="640" physical_partition_number="0" start_sector="640"/>
+  <program PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" filename="partition_complete_p4K_b256K.mbn" num_partition_sectors="640" physical_partition_number="0" start_sector="640"/>
+  <program PAGES_PER_BLOCK="64" SECTOR_SIZE_IN_BYTES="4096" filename="sbl1.mbn" num_partition_sectors="640" physical_partition_number="0" start_sector="0"/>
+</data>
+└─$ ~/development/quectel_ec25eu/QFirehose_Linux_Android_V1.4.8/QFirehose -n -f EC25EFAR06A01M4G
+```
