@@ -84,11 +84,17 @@ For memory remap we need Qualcomm MIBIB partitioning file for your device:
           └───────────────────────────────────────────────────────────────────── Flash
 ```
 ```
-# How to calculate 0:system Length & Offset for MIBIB
+# How to calculate 0:system Length & Offset from MIBIB
 └─$  for A in $(printf %08X'\n' $((0x0D300000/(4096*64))) ); do echo $A | grep -o .. | tac | tr -d '\n'; done
 4C030000 # Length
 └─$  for A in $(printf %08X'\n' $((0x12D00000/(4096*64))) ); do echo $A | grep -o .. | tac | tr -d '\n'; done
 B4040000 # Offset
+
+# How to calculate 0:system Length & Offset for MIBIB
+└─$ printf %08x $(($(echo 0x$(for A in $(printf %08X'\n' $((0xB4040000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64)
+12d00000 # Length
+└─$ printf %08x $(($(echo 0x$(for A in $(printf %08X'\n' $((0x4c030000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64))
+0d300000 # Offset
 ```
 ```
 Name                    Offset          Length           Attr            Flash       Image
