@@ -2,9 +2,9 @@
 
 For memory remap we need Qualcomm MIBIB partitioning file for your device:
 
-- partition_complete_p4K_b256K.mbn
-- partition_complete_p2K_b128K.mbn
-- or dump it using edl r mibib mibib.bin
+- partition_complete_p4K_b256K.mbn from `EC25-E  EC25EFA-512-STD`
+- partition_complete_p2K_b128K.mbn from `EC25-EU EC25EUGA-512-SGNS`
+- or dump it using `edl r mibib mibib.bin`
 
 #### partition_complete_p2K_b128K.mbn
 ```
@@ -105,8 +105,8 @@ For memory remap we need Qualcomm MIBIB partitioning file for your device:
 000011d0: 303a 7164 7370 3673 775f 4200 0000 0000 ec02 0000 e000 0000 ff01 0000  0:qdsp6sw_B.................
 000011ec: 303a 7379 735f 6261 636b 0000 0000 0000 cc03 0000 e800 0000 ff01 0000  0:sys_back..................
 00001208: 303a 7379 7374 656d 0000 0000 0000 0000 b404 0000 4c03 0000 ff01 0000  0:system............L.......
-          │    │                                  │         │          │ │  │
-          │    │                                  │         │          └─└──└─── Attr
+          │    │                                  │         │         │
+          │    │                                  │         │         └───────── Attr
           │    │                                  │         │                    Page size: 4096 bytes
           │    │                                  │         │                    The number of pages in the block: 64
           │    │                                  │         └─────────────────── Length = Length/4096*64
@@ -114,19 +114,28 @@ For memory remap we need Qualcomm MIBIB partitioning file for your device:
           │    └──────────────────────────────────────────────────────────────── Partition Name
           └───────────────────────────────────────────────────────────────────── Flash
 ```
+##### Example
 ```
-# How to calculate 0:system Length & Offset from MIBIB
+└─$ printf '0:system' | xxd 
+00000000: 303a 7379 7374 656d                      0:system
+```
+
+##### How to calculate 0:system Length & Offset from MIBIB
+```
 └─$  for A in $(printf %08X'\n' $((0x0D300000/(4096*64))) ); do echo $A | grep -o .. | tac | tr -d '\n'; done
 4C030000 # Length
 └─$  for A in $(printf %08X'\n' $((0x12D00000/(4096*64))) ); do echo $A | grep -o .. | tac | tr -d '\n'; done
 B4040000 # Offset
+```
 
-# How to calculate 0:system Length & Offset for MIBIB
+##### How to calculate 0:system Length & Offset for MIBIB
+```
 └─$ printf %08x $(($(echo 0x$(for A in $(printf %08X'\n' $((0xB4040000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64)
 12d00000 # Length
 └─$ printf %08x $(($(echo 0x$(for A in $(printf %08X'\n' $((0x4c030000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64))
 0d300000 # Offset
 ```
+#### EC25-E EC25EFA-512-STD Partition Table
 ```
 Name                    Offset          Length          Attr            Flash       Image
 -------------------------------------------------------------------------------------------------------------------------------
