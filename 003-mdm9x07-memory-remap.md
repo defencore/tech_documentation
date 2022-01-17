@@ -130,10 +130,10 @@ B4040000 # Offset
 
 ### How to calculate 0:system Length & Offset for MIBIB
 ```
-└─$ printf %08x $(($(echo 0x$(for A in $(printf %08X'\n' $((0xB4040000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64)
-12d00000 # Length
-└─$ printf %08x $(($(echo 0x$(for A in $(printf %08X'\n' $((0x4c030000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64))
-0d300000 # Offset
+└─$ printf %08X $(($(echo 0x$(for A in $(printf %08X'\n' $((0xB4040000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64))
+12D00000 # Length
+└─$ printf %08X $(($(echo 0x$(for A in $(printf %08X'\n' $((0x4c030000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64))
+0D300000 # Offset
 ```
 ### EC25-E EC25EFA-512-STD Partition Table
 ```
