@@ -6,7 +6,7 @@ For memory remap we need Qualcomm MIBIB partitioning file for your device:
 - partition_complete_p2K_b128K.mbn from `EC25-EU EC25EUGA-512-SGNS`
 - or dump it using `edl r mibib mibib.bin`
 
-#### partition_complete_p2K_b128K.mbn
+## partition_complete_p2K_b128K.mbn
 ```
 # Offsets for NAND with 2048 bytes page
 └─$ strings -a -t x partition_complete_p2K_b128K.mbn
@@ -60,7 +60,7 @@ For memory remap we need Qualcomm MIBIB partitioning file for your device:
 00000a40: 303a 7379 7374 656d 0000 0000 0000 0000 4e09 0000 b206 0000 ff01 0000  0:system........N...........
 ```
 
-#### partition_complete_p4K_b256K.mbn
+## partition_complete_p4K_b256K.mbn
 ```
 # Offsets for NAND with 4096 bytes page
 └─$ strings -a -t x partition_complete_p4K_b256K.mbn 
@@ -114,13 +114,13 @@ For memory remap we need Qualcomm MIBIB partitioning file for your device:
           │    └──────────────────────────────────────────────────────────────── Partition Name
           └───────────────────────────────────────────────────────────────────── Flash
 ```
-##### Example
+### Example
 ```
 └─$ printf '0:system' | xxd 
 00000000: 303a 7379 7374 656d                      0:system
 ```
 
-##### How to calculate 0:system Length & Offset from MIBIB
+### How to calculate 0:system Length & Offset from MIBIB
 ```
 └─$  for A in $(printf %08X'\n' $((0x0D300000/(4096*64))) ); do echo $A | grep -o .. | tac | tr -d '\n'; done
 4C030000 # Length
@@ -128,14 +128,14 @@ For memory remap we need Qualcomm MIBIB partitioning file for your device:
 B4040000 # Offset
 ```
 
-##### How to calculate 0:system Length & Offset for MIBIB
+### How to calculate 0:system Length & Offset for MIBIB
 ```
 └─$ printf %08x $(($(echo 0x$(for A in $(printf %08X'\n' $((0xB4040000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64)
 12d00000 # Length
 └─$ printf %08x $(($(echo 0x$(for A in $(printf %08X'\n' $((0x4c030000)) ); do echo $A | grep -o .. | tac | tr -d '\n'; done))*4096*64))
 0d300000 # Offset
 ```
-#### EC25-E EC25EFA-512-STD Partition Table
+### EC25-E EC25EFA-512-STD Partition Table
 ```
 Name                    Offset          Length          Attr            Flash       Image
 -------------------------------------------------------------------------------------------------------------------------------
@@ -159,3 +159,7 @@ qdsp6sw_b               0BB00000        03800000        0xff/0x1/0x0    0       
 sys_back                0F300000        03A00000        0xff/0x1/0x0    0           mdm9607-perf-sysfs.ubi
 system                  12D00000        0D300000        0xff/0x1/0x0    0           mdm9607-perf-sysfs.ubi
 ```
+## BEFORE
+![image](https://user-images.githubusercontent.com/56395503/149693681-6716fb46-4a1b-4584-b67f-e9ea34d8290c.png)
+
+## AFTER
