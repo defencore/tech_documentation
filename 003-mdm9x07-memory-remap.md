@@ -109,8 +109,8 @@ For memory remap we need Qualcomm MIBIB partitioning file for your device:
           │    │                                  │         │         └───────── Attr
           │    │                                  │         │                    Page size: 4096 bytes
           │    │                                  │         │                    The number of pages in the block: 64
-          │    │                                  │         └─────────────────── Length = Length/4096*64
-          │    │                                  └───────────────────────────── Offset = Offset/4096*64
+          │    │                                  │         └─────────────────── Length = Length/(4096*64) => Little Endian (DCBA)
+          │    │                                  └───────────────────────────── Offset = Offset/(4096*64) => Little Endian (DCBA)
           │    └──────────────────────────────────────────────────────────────── Partition Name
           └───────────────────────────────────────────────────────────────────── Flash
 ```
