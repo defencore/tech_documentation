@@ -57,6 +57,9 @@ teltonika@cc52108af770:~$ file bin/ar71xx/openwrt-ar71xx-generic-tlt-rut200-squa
 ### EDL
  First you need to switch Teltonika TRB140 to EDL _(Qualcomm 9008 Emergency Download)_ mode.
  To do this, in EC25 modules, you need to apply 1.8V to the USB_BOOT contact through a 10K resistor.
+ 
+![image](https://user-images.githubusercontent.com/56395503/150063920-6893764d-3dbc-4833-b9ee-3c714df90c06.png)
+
  ``` 
  PIN 7   = VDD_EXT (1.8V)
  PIN 115 = USB_BOOT
