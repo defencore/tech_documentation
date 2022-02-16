@@ -54,12 +54,8 @@ teltonika@cc52108af770:~$ make menuconfig
 	Target Profile (Teltonika TRB140 EC25-EU (Region 0))  --->
 	        (X) Teltonika TRB140 EC25-EU (Region 0)
 teltonika@cc52108af770:~$ make V=s -j$(nproc)
-teltonika@cc52108af770:~$ file bin/ar71xx/openwrt-ar71xx-generic-tlt-rut200-squashfs-sysupgrade.bin
-```
-### ABOOT for EC25-EU USB Modem
-```
-# For EC25-EU we need to remove PATCH and rebuild ABOOT
-teltonika@cc52108af770:~$ rm ./package/boot/aboot-mdm9x07/patches/001-use_reset_btn_for_fastboot.patch
+teltonika@cc52108af770:~$ file bin/targets/mdm9x07/generic/trb14x-aboot.mbn
+teltonika@cc52108af770:~$ file bin/targets/mdm9x07/generic/openwrt-mdm9x07-trb1400-squashfs-dynamic.bin
 ```
 
 ---
@@ -486,9 +482,118 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
       CPU: Qualcomm Technologies, Inc MDM9207
 RNDIS_MAC: XX:XX:XX:XX:XX:XX
     MODEM: EC25-EU EC25EUGA-512-SGNS
+ FIRMWARE: EC25EUGAR06A03M4G
+```
+## Prepare Firmware
+
+### Partitions Prepare
+```
+└─$ cd ~/teltonika
+└─$ mkdir flash_ec25
+└─$ cd flash_ec25
+└─$ wget https://raw.githubusercontent.com/defencore/tech_documentation/main/rawprogram_nand_xml_generate.sh
+└─$ chmod a+x rawprogram_nand_xml_generate.sh
+# Replace page size: 4096 to 2048
+└─$ nano rawprogram_nand_xml_generate.sh
+SECTOR_SIZE_IN_BYTES="2048"
+```
+```
+└─$ nano partition.save
+sbl                     00000000        00140000        0xff/0x1/0x0    0
+mibib                   00140000        00140000        0xff/0x1/0xff   0
+efs2                    00280000        01600000        0xff/0x1/0xff   0
+rawdata                 01880000        00300000        0xff/0x1/0x0    0
+tz                      01B80000        00140000        0xff/0x1/0x0    0
+rpm                     01CC0000        00140000        0xff/0x1/0x0    0
+aboot                   01E00000        00140000        0xff/0x1/0x0    0
+mnf_info                01F40000        00140000        0xff/0x1/0x0    0
+boot_config             02080000        00140000        0xff/0x1/0x0    0
+boot_a                  021C0000        00900000        0xff/0x1/0x0    0
+boot_b                  02AC0000        00900000        0xff/0x1/0x0    0
+modem                   033C0000        03C00000        0xff/0x1/0x0    0
+rootfs_a                06FC0000        07740000        0xff/0x1/0x0    0
+rootfs_b                0E700000        07740000        0xff/0x1/0x0    0
+storage                 15E40000        0A1C0000        0xff/0x1/0x0    0
+```
+```
+└─$ mkdir -p EC25EUGA-512-SGNS/update/firehose
+└─$ ./rawprogram_nand_xml_generate.sh partition.save | sed -e '/efs2.bin/d' -e '/rawdata.bin/d' > ./EC25EUGA-512-SGNS/update/firehose/rawprogram_nand_p2K_b256K_update.xml
 ```
 
-## Prepare Firmware
+```
+# Copy all partitions to ./EC25EUGA-512-SGNS/update/firehose/
+└─$ cp /patp/to/aboot.bin ./EC25EUGA-512-SGNS/update/firehose/aboot.bin
+...
+└─$ cp /patp/to/tz.bin ./EC25EUGA-512-SGNS/update/firehose/tz.bin
+# Copy firehose from original modem firmware EC25EUGAR06A07M4G_01.001.01.001.zip
+└─$ unzip EC25EUGAR06A07M4G_01.001.01.001.zip -d EC25EUGAR06A07M4G_01.001.01.001
+└─$ cp EC25EUGAR06A07M4G_01.001.01.001/update/firehose/partition_complete_p2K_b128K.mbn EC25EUGA-512-SGNS/update/firehose/
+└─$ cp EC25EUGAR06A07M4G_01.001.01.001/update/firehose/prog_nand_firehose_9x07.mbn EC25EUGA-512-SGNS/update/firehose/
+└─$ cp EC25EUGAR06A07M4G_01.001.01.001/update/NON-HLOS.ubi EC25EUGA-512-SGNS/update/firehose/modem.bin
+# Replace
+└─$ cp ~/teltonika/rutos-mdm9x07-trb1-gpl/bin/targets/mdm9x07/generic/trb14x-aboot.mbn EC25EUGA-512-SGNS/update/firehose/aboot.bin
+└─$ cp ~/teltonika/rutos-mdm9x07-trb1-gpl/bin/targets/mdm9x07/generic/openwrt-mdm9x07-trb1400-squashfs-dynamic.bin EC25EUGA-512-SGNS/update/firehose/rootfs_a.bin
+└─$ cp ~/teltonika/rutos-mdm9x07-trb1-gpl/bin/targets/mdm9x07/generic/openwrt-mdm9x07-trb1400-squashfs-dynamic.bin EC25EUGA-512-SGNS/update/firehose/rootfs_b.bin
+└─$ tree EC25EUGA-512-SGNS
+EC25EUGA-512-SGNS
+└── update
+    └── firehose
+        ├── aboot.bin
+        ├── boot_a.bin
+        ├── boot_b.bin
+        ├── boot_config.bin
+        ├── efs2.bin
+        ├── mibib.bin
+        ├── mnf_info.bin
+        ├── modem.bin
+        ├── partition.bin
+        ├── partition_complete_p2K_b128K.mbn
+        ├── prog_nand_firehose_9x07.mbn
+        ├── rawdata.bin
+        ├── rawprogram_nand_p2K_b256K_update.xml
+        ├── rootfs_a.bin
+        ├── rootfs_b.bin
+        ├── rpm.bin
+        ├── sbl.bin
+        ├── storage.bin
+        └── tz.bin
+```
+### QFirehose prepare
+```
+# Find & Download QFirehose_Linux_Android_V1.4.8
+└─$ cd QFirehose_Linux_Android_V1.4.8
+└─$ make
+└─$ cd ..
+```
+### Flash Teltonika firmware to Quectel EC25EUGA-512-SGNS
+```
+└─$ ./QFirehose_Linux_Android_V1.4.8/QFirehose -n -f EC25EUGA-512-SGNS
+[038.656]: <log value="Inside handlePower() - Requested POWER_RESET"/>
+[038.656]: <response value="ACK" />
+[039.657]: THE TOTAL DOWNLOAD TIME IS 39.656 s
+[039.658]: Upgrade module successfully.
+```
+### ABOOT
+```
+# For EC25-EU we need to edit 001-use_reset_btn_for_fastboot.patch and rebuild ABOOT
+teltonika@cc52108af770:~$ rm -rf build_dir/target-arm_cortex-a7+neon-vfpv4_musl_eabi/aboot-mdm9x07-2020-03-05
+teltonika@cc52108af770:~$ rm -rf bin/targets/mdm9x07/generic/trb14x-aboot.mbn
+teltonika@cc52108af770:~$ nano ./package/boot/aboot-mdm9x07/patches/001-use_reset_btn_for_fastboot.patch
+	ret = 0;
+teltonika@cc52108af770:~$ make
+```
+
+### Fastboot
+```
+└─$ sudo apt-get install fastboot
+└─$ fastboot devices
+bf74ef05        fastboot
+└─$ fastboot flash aboot EC25EUGA-512-SGNS/update/firehose/aboot.bin
+└─$ fastboot reboot
+```
+
+# Problems
+- Problems with modem
 
 ### Usefull Links & References:
 - [Teltonika SDK](https://wiki.teltonika-networks.com/view/Software_Development_Kit)
