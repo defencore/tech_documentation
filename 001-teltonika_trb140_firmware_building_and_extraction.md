@@ -26,7 +26,10 @@ RNDIS_MAC: E6:B2:5D:XX:XX:XX
 └─$ cd ~/teltonika
 └─$ wget https://wiki.teltonika-networks.com/gpl/TRB1_R_GPL_00.07.01.2.tar.gz
 └─$ tar -xvf TRB1_R_GPL_00.07.01.2.tar.gz
-└─$ docker run -v ~/teltonika/:/home/teltonika -it ubuntu:bionic /bin/bash
+└─$ docker run -v ~/teltonika/:/home/teltonika --name teltonika_sdk -it ubuntu:latest /bin/bash
+root@cc52108af770:/# exit
+└─$ docker start teltonika_sdk
+└─$ docker exec -it teltonika_sdk /bin/bash
 ```
 ### Docker | System Preparation
 ```
