@@ -1,4 +1,6 @@
 # Teltonika TRB140
+<img src="https://user-images.githubusercontent.com/56395503/154319018-05ba5ab2-e416-4378-b0ab-6ac48b285762.png" width="300"> <img src="https://user-images.githubusercontent.com/56395503/154319971-19249816-3ae8-4af6-89e5-637abc45e952.png" width="300">
+
 ```
   DEVICE: Teltonika TRB140
       CPU: Qualcomm Technologies, Inc MDM9207
@@ -35,7 +37,7 @@ root@cc52108af770:/# exit
 ```
 # System update
 root@cc52108af770:/# apt-get update
-root@cc52108af770:/# apt-get upgrade
+root@cc52108af770:/# apt-get upgrade -y
 # Adding a user
 root@cc52108af770:/# useradd teltonika -b /home -d /home/teltonika -s /bin/bash
 # Installing dependencies
@@ -54,6 +56,12 @@ teltonika@cc52108af770:~$ make menuconfig
 teltonika@cc52108af770:~$ make V=s -j$(nproc)
 teltonika@cc52108af770:~$ file bin/ar71xx/openwrt-ar71xx-generic-tlt-rut200-squashfs-sysupgrade.bin
 ```
+### ABOOT for EC25-EU USB Modem
+```
+# For EC25-EU we need to remove PATCH and rebuild ABOOT
+teltonika@cc52108af770:~$ rm ./package/boot/aboot-mdm9x07/patches/001-use_reset_btn_for_fastboot.patch
+```
+
 ---
  
 ## Firmware Extraction
@@ -115,7 +123,7 @@ connected to 192.168.2.1:5555
 HWID:              0x000480e100000000 (MSM_ID:0x000480e1,OEM_ID:0x0000,MODEL_ID:0x0000)
 CPU detected:      "MDM9207"
 PK_HASH:           0xcc3153a80293939b90d02d3bf8b23e0292e452fef662c74998421adad42a380f
-Serial:            0xf3f6ef32
+Serial:            0xf3f6ef3
 
 Sec_Boot0 PKHash-Index:0 OEM_PKHash: False Auth_Enabled: False Use_Serial: False
 Sec_Boot1 PKHash-Index:0 OEM_PKHash: False Auth_Enabled: False Use_Serial: False
@@ -470,6 +478,18 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 *
 00000830  00 00 00 00 00 00 00 00  00 00 00 00 b8 25 64 a8  |.............%d.|
 ```
+# Quectel EC25-EU
+<img src="https://user-images.githubusercontent.com/56395503/154320684-a8518540-beb3-4455-adc6-fe0cdf8f6ce5.png" width="300"> <img src="https://user-images.githubusercontent.com/56395503/154320710-68c317ed-0e0e-4fcd-b9d3-b77c333ddc95.png" width="300">
+
+```
+   DEVICE: USB Quectel EC25-EU Modem
+      CPU: Qualcomm Technologies, Inc MDM9207
+RNDIS_MAC: XX:XX:XX:XX:XX:XX
+    MODEM: EC25-EU EC25EUGA-512-SGNS
+```
+
+## Prepare Firmware
+
 ### Usefull Links & References:
 - [Teltonika SDK](https://wiki.teltonika-networks.com/view/Software_Development_Kit)
 - [Quectel Tools](https://www.quectel.com/ProductDownload/EC20.zip)
