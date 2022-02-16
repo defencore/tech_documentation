@@ -593,7 +593,11 @@ bf74ef05        fastboot
 ```
 
 # Problems
-- Problems with modem
+- Modem not worked (no IMEI, no Network, no SIM)
+```
+gsmctl -A 'AT+EGMR=1,7,"IMEI FROM MODULE"'
+gsmctl -i
+```
 
 ### Usefull Links & References:
 - [Teltonika SDK](https://wiki.teltonika-networks.com/view/Software_Development_Kit)
