@@ -501,7 +501,7 @@ SECTOR_SIZE_IN_BYTES="2048"
 └─$ nano partition.save
 sbl                     00000000        00140000        0xff/0x1/0x0    0
 mibib                   00140000        00140000        0xff/0x1/0xff   0
-efs2                    00280000        01600000        0xff/0x1/0xff   0
+efs2                    00280000        01600000        0xff/0x1/0xff   0 (don't erase)
 rawdata                 01880000        00300000        0xff/0x1/0x0    0
 tz                      01B80000        00140000        0xff/0x1/0x0    0
 rpm                     01CC0000        00140000        0xff/0x1/0x0    0
@@ -522,9 +522,9 @@ storage                 15E40000        0A1C0000        0xff/0x1/0x0    0
 
 ```
 # Copy all partitions to ./EC25EUGA-512-SGNS/update/firehose/
-└─$ cp /patp/to/aboot.bin ./EC25EUGA-512-SGNS/update/firehose/aboot.bin
+└─$ cp /path/to/aboot.bin ./EC25EUGA-512-SGNS/update/firehose/aboot.bin
 ...
-└─$ cp /patp/to/tz.bin ./EC25EUGA-512-SGNS/update/firehose/tz.bin
+└─$ cp /path/to/tz.bin ./EC25EUGA-512-SGNS/update/firehose/tz.bin
 # Copy firehose from original modem firmware EC25EUGAR06A07M4G_01.001.01.001.zip
 └─$ unzip EC25EUGAR06A07M4G_01.001.01.001.zip -d EC25EUGAR06A07M4G_01.001.01.001
 └─$ cp EC25EUGAR06A07M4G_01.001.01.001/update/firehose/partition_complete_p2K_b128K.mbn EC25EUGA-512-SGNS/update/firehose/
@@ -573,6 +573,11 @@ EC25EUGA-512-SGNS
 [039.657]: THE TOTAL DOWNLOAD TIME IS 39.656 s
 [039.658]: Upgrade module successfully.
 ```
+### Flash FULLFLASH.RAW
+```
+
+```
+
 ### ABOOT
 ```
 # For EC25-EU we need to edit 001-use_reset_btn_for_fastboot.patch and rebuild ABOOT
@@ -591,13 +596,13 @@ bf74ef05        fastboot
 └─$ fastboot flash aboot EC25EUGA-512-SGNS/update/firehose/aboot.bin
 └─$ fastboot reboot
 ```
-
 # Problems
 - Modem not worked (no IMEI, no Network, no SIM)
 ```
-gsmctl -A 'AT+EGMR=1,7,"IMEI FROM MODULE"'
-gsmctl -i
+root@Teltonika-TRB140:~# gsmctl -A 'AT+EGMR=1,7,"IMEI FROM MODULE"'
+root@Teltonika-TRB140:~# gsmctl -i
 ```
+
 
 ### Usefull Links & References:
 - [Teltonika SDK](https://wiki.teltonika-networks.com/view/Software_Development_Kit)
