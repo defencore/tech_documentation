@@ -602,6 +602,14 @@ bf74ef05        fastboot
 root@Teltonika-TRB140:~# gsmctl -A 'AT+EGMR=1,7,"IMEI FROM MODULE"'
 root@Teltonika-TRB140:~# gsmctl -i
 ```
+- https://m2msupport.net/m2msupport/general-at-commands/
+```
+
+AT+CIMI   #GET IMSI
+AT+COPS?  #GET Network Information
+AT&F      #Set all Current Parameters to Manufacturer Defaults
+
+```
 
 
 ### Usefull Links & References:
