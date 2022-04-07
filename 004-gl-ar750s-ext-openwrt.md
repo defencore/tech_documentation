@@ -117,10 +117,15 @@ openwrt@4e1b8336f6ec:~$ make V=s -j$(nproc)
 | Storage Temperature | -20 ... ~70°C |
 | Dimension, Weight | 100 x 68 x 24mm / 86g |
 
-## kismet_cap_linux_wifi on GL.Inet GL-AR750S-EXT
+## kismet_cap_linux_wifi on GL.Inet GL-AR750S-EXT for UAV detection
+Should work for (Not tested yet)
+- Mavic Mini
+- Mini SE
+- Spark
+- Mavic Air
 ```
-root@OpenWrt:~# kismet_cap_linux_wifi --connect 192.168.1.254:3501 --tcp --source=wlan0:add_channels="149W5,153W5,157W5,161W5,165W5,151W5,155W5,159W5,163W5,153W5"
-root@OpenWrt:~# kismet_cap_linux_wifi --connect 192.168.1.254:3501 --tcp --source=wlan1:add_channels="1W5,2W5,3W5,4W5,5W5,6W5,7W5,8W5,9W5,10W5,11W5,12W5,13W5,14W5"
+root@OpenWrt:~# kismet_cap_linux_wifi --connect 192.168.1.254:3501 --tcp --source=wlan0:channels=\"149W5,153W5,157W5,161W5,165W5,151W5,155W5,159W5,163W5,153W5\"
+root@OpenWrt:~# kismet_cap_linux_wifi --connect 192.168.1.254:3501 --tcp --source=wlan1:channels=\"1W5,2W5,3W5,4W5,5W5,6W5,7W5,8W5,9W5,10W5,11W5,12W5,13W5,14W5\"
 ```
 
 # Ubuntu/Debian Linux
