@@ -96,6 +96,27 @@ openwrt@4e1b8336f6ec:~$ make V=s -j$(nproc)
 ```
 
 # GL.Inet GL-AR750S-EXT
+
+|![image](https://user-images.githubusercontent.com/56395503/162106239-ca46105c-4566-4b17-a75c-b7409e74954a.png)| |
+|-|-|
+| Interface |	1 x WAN Ethernet port<br>2 x LAN Ethernet ports<br>3 x LEDs<br>1 x USB 2.0 port<br>1 x Micro USB power port<br>1 x MicroSD card slot (Max.128GB)<br>1 x Reset button<br>1 x Switch button |
+| CPU |	QCA9563, @775MHz SoC |
+| Memory | DDR2 128MB |
+| Storage | 16MB Nor Flash + 128MB Nand Flash |
+| Protocol | IEEE 802.11a/b/g/n/ac |
+| Wi-Fi Speed | 300Mbps(2.4GHz) + 433Mbps(5GHz) |
+| Wi-Fi Antenna | 2 X 2dBi undetachable external antennas |
+| TX Power | <20dBm |
+| Ethernet Speed | 10/100/1000Mbps |
+| External Drive Format Support | FAT32/NTFS/exFAT/EXT4/EXT3/EXT2 |
+| DIY Features | UART, GPIO, 3.3V & 5V power port |
+| LEDs | Power Supply / 2G / 5G |
+| Power Input | Micro USB, 5V/2A |
+| Power Consumption | <6W |
+| Working Temperature | -20 ... ~40°C |
+| Storage Temperature | -20 ... ~70°C |
+| Dimension, Weight | 100 x 68 x 24mm / 86g |
+
 ## kismet_cap_linux_wifi on GL.Inet GL-AR750S-EXT
 ```
 root@OpenWrt:~# kismet_cap_linux_wifi --connect 192.168.1.254:3501 --tcp --source=wlan0:add_channels="149W5,153W5,157W5,161W5,165W5,151W5,155W5,159W5,163W5,153W5"
