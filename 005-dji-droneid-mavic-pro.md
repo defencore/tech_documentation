@@ -10,6 +10,9 @@
 # Get DroneID Status
 └─$ cat /dev/ttyACM0 | xxd -pu | tr -d '\n' | sed 's/^.*551304/551304/g' | grep '551304' | tr a-z A-Z | cut -c27-28
 ```
+Tested on:
+- DJI Mavic Pro
 
 References:
 - https://github.com/MAVProxyUser/CIAJeepDoors/blob/main/CIAJeepdoors_1.2/CIAJeepDoors.py
+- https://r3spond.d3vl.com
